@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MapTecs</string>
+    <string name="title_activity_tecmap">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="DescripcionITT">Es una escuela Tecnologica que todos estudian adentro de esta escuela</string>
+    <string name="DescripcionUABC">Es otra escuela ya sea mas popular o menos popular que la que esta a lado de ella</string>
+</resources>
