@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+    <item android:drawable="@color/common_google_signin_btn_text_dark_default"/>
+    <item>
+        <bitmap
+            android:maxWidth="42dp"
+            android:maxHeight="42dp"
+            android:src="@drawable/eneit1"
+            android:gravity="center"/>
+    </item>
+
+</layer-list>

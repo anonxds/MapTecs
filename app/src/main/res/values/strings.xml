@@ -5,6 +5,20 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="DescripcionITT">Es una escuela Tecnologica que todos estudian adentro de esta escuela</string>
+    <string name="DescripcionITT">Instituto Tecnologico de Tijuana perteneciente a los Tecnologicos Nacionales de Mexico.
+        "\n"
+    Se especializa en la formacion de especialistas en ingenieria principalmente y licenciaturas para el desarrollo profesional capaces de
+    mostrar su habilidades y dar una solucion que se presenten en un trabajo.
+        "\n"
+        "\n"
+
+        Entre las carreras mas populares son: "\n"
+        ● Electromecanica "\n"
+        ● Electronica  "\n"
+        ● Sistemas Computacionales "\n"
+        ● Industrial
+
+    </string>
+
     <string name="DescripcionUABC">Es otra escuela ya sea mas popular o menos popular que la que esta a lado de ella</string>
 </resources>

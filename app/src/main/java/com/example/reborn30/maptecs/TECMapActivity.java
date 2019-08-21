@@ -1,6 +1,7 @@
 package com.example.reborn30.maptecs;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -10,8 +11,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.reborn30.maptecs.ListaDeEscuelas.IUni;
+import com.example.reborn30.maptecs.ListaDeEscuelas.TEC;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -21,97 +27,25 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-//public class TECMapActivity extends FragmentActivity implements OnMapReadyCallback {
-//
-//    private GoogleMap mMap;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_tecmap);
-//        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
-//
-//    }
-//
-//
-//    /**
-//     * Manipulates the map once available.
-//     * This callback is triggered when the map is ready to be used.
-//     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-//     * we just add a marker near Sydney, Australia.
-//     * If Google Play services is not installed on the device, the user will be prompted to install
-//     * it inside the SupportMapFragment. This method will only be triggered once the user has
-//     * installed Google Play services and returned to the app.
-//     */
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        mMap = googleMap;
-//
-//        // Add a marker in Sydney and move the camera
-////        LatLng sydney = new LatLng(-34, 151);
-////        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-////        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-////         LatLngBounds AUSTRALIA = new LatLngBounds(
-////                new LatLng(-20, 113), new LatLng(-10, 154));
-////
-////// Set the camera to the greatest possible zoom level that includes the
-////// bounds
-////        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AUSTRALIA.getCenter(), 10));
-//        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.style_json));
-//
-//        LatLngBounds ADELAIDE = new LatLngBounds(
-//                new LatLng(32.5296806,-116.9877132), new LatLng(32.5296806,-116.9877132));
-//// Constrain the camera target to the Adelaide bounds.
-//        mMap.setLatLngBoundsForCameraTarget(ADELAIDE);
-//
-//        LatLng TEC = new LatLng(32.5296806,-116.9877132);
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TEC,17));
-//        CameraPosition cameraPosition = new CameraPosition.Builder().target(TEC)
-//                .zoom(17.6f)
-//
-//                .bearing(27).tilt(30).build();
-//
-//        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-//        mMap.getUiSettings(). setZoomGesturesEnabled(false);
-////        BitmapDescriptor map =  BitmapDescriptorFactory.fromResource(R.drawable.niebla2);
-////        GroundOverlayOptions groundOverlay = new GroundOverlayOptions()
-////                .image(map)
-////                .position(TEC, 17.6f)
-////                .transparency(0.1f)
-////                .anchor(0.5f, 0.5f);
-////        mMap.addGroundOverlay(groundOverlay);
-//        LatLng officina = new LatLng(32.529169, -116.987342);
-//Marker off =  mMap.addMarker(new MarkerOptions().position(officina).title("Officina").icon(BitmapDescriptorFactory.fromResource(R.drawable.zacatecas)).draggable(false));
-//off.showInfoWindow();
-//        LatLng trecientos = new LatLng(32.529961, -116.988182);
-//     Marker dosientos=   mMap.addMarker(new MarkerOptions().position(trecientos).title("Salones 200").icon(BitmapDescriptorFactory.fromResource(R.drawable.mexico)));
-//dosientos.showInfoWindow();
-//       LatLng verdaderotreciento = new LatLng(32.530241, -116.988070);
-//        Marker treciento =  mMap.addMarker(new MarkerOptions().position(verdaderotreciento).title("Salones 300").icon(BitmapDescriptorFactory.fromResource(R.drawable.valle)));
-//treciento.showInfoWindow();
-//        LatLng salonesQ = new LatLng(32.529815, -116.987481);
-//      Marker salones = mMap.addMarker(new MarkerOptions().position(salonesQ).title("Salones Q").icon(BitmapDescriptorFactory.fromResource(R.drawable.uno)));
-//  //      salones.showInfoWindow();
-//    }
-//}
 
 public class TECMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
-
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker currentUserLocationMarker;
     private static final  int Request_User_location_code=99;
+   LatLngBounds bounds;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,48 +59,117 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+    private Context context;
 
+    static final LatLng ed300 = new LatLng(32.530269, -116.988077);
+    static  final  LatLng EstaMes = new LatLng(   32.528844, -116.988736);
+    static  final  LatLng CAFE = new LatLng(   32.528954, -116.988263);
+    static  final  LatLng LABREDES = new LatLng(   32.529267, -116.988568);
+    static  final  LatLng LABINDS = new LatLng(   32.529433, -116.988479);
+    static  final  LatLng LABBQI = new LatLng(   32.529141, -116.987756);
+    static  final  LatLng LABMAT = new LatLng(   32.529222, -116.988009);
+    static  final  LatLng LABELE = new LatLng(   32.530602, -116.986852);
+    static  final  LatLng EDIF500 = new LatLng(   32.530387, -116.987206);
+    static  final  LatLng METALMEC = new LatLng(   32.530466, -116.986322);
+    static  final  LatLng LABCOMP = new LatLng(   32.529862, -116.986923);
+    static  final  LatLng EDI200 = new LatLng(   32.529700, -116.988352);
+    static  final  LatLng Q = new LatLng(   32.529872, -116.987461);
+    static  final LatLng EDI600 = new LatLng(32.531153, -116.986074);
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(32.519913, -116.993464))
+                .zoom(17.5f)
+                .bearing(25).tilt(10).build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.style_json));
+        final LatLngBounds ADELAIDE = new LatLngBounds(
+                new LatLng(32.5292812,-116.9899659), new LatLng(32.530833,-116.9867787));
 
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//
-//        LatLng mexico = new LatLng(19.4326077, -99.1332079999997);
-//        mMap.addMarker(new MarkerOptions().position(mexico).title("Mexico").snippet("Mexico solicita personal").icon(BitmapDescriptorFactory.fromResource(R.drawable.mexico)).draggable(true));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mexico,7));
-//
-//        LatLng valle = new LatLng(19.1950960, -100.13267250000001);
-//        mMap.addMarker(new MarkerOptions().position(valle).title("Valle del bravo").snippet("valle precioso").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-//
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valle,7));
-//
-//        CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(19.4326077, -99.1332079999997))
-//                .zoom(15.5f)
-//                .bearing(0).tilt(25).build();
-//
-//        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+// Constrain the camera target to the Adelaide bounds.
+        mMap.setLatLngBoundsForCameraTarget(ADELAIDE);
+        mMap.setMinZoomPreference(mMap.getCameraPosition().zoom);
+
+        IUni U;
+        U = new TEC();
+        String university = "university",coffe="coffee",parking="parking";
+        //Marker tres,est,cafe,labred,labinds,labioQ,labmat,labele,edi500,metalmec,labcomp;
+
+        _setmap(googleMap,EDI600,"Edificio 600","Salones 601-620 \n AudioVisual 2 y 3 \n Banos",U.ed600(),university);
+        _setmap(googleMap,EDI200,"Edificio 200","Salones 201-210 \n Banos",U.Quint(),university);
+        _setmap(googleMap,Q,"Q","Salones Q101-Q103 \n Messas de ping pong",U.Q(),university);
+        _setmap(googleMap,CAFE,"Cafeteria","Mesas Comida","explanada",coffe);
+        _setmap(googleMap,EDIF500,"Edificio 500","Salones 500-510","na",university);
+        _setmap(googleMap,METALMEC,"Metal Mecanica","Coordinacion de Metal-Mecanica","na",university);
+        _setmap(googleMap,LABCOMP,"Laboratorio de Computos","Laboratorios de computadoras","na",university);
+        _setmap(googleMap,LABELE,"Laboratorio de electromecanica","Laboratorios de electromecanica","NA",university);
+        _setmap(googleMap,LABMAT,"Labotarios de matematicas","Investigacion de matematicas","na",university);
+          _setmap(googleMap,LABBQI,"Laboratorio de bioquimica","Laboratorio 1","na",university);
+          _setmap(googleMap,LABINDS,"Coordinacion de Industrial","Laboratiorio y salones","na",university);
+          _setmap(googleMap,LABREDES,"Laboratorio de redes","Lab E y redes","na",university);
+          _setmap(googleMap,EstaMes,"Estacionamienti `1", "Espacio de 34","na",parking);
+          _setmap(googleMap,ed300,"Edificio 300","Salones 300-310","na",university);
+
+//_ediseis.setInfoWindowAnchor(0,12);
+        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            // Defines the contents of the InfoWindow
+            @Override
+            public View getInfoContents(Marker arg0) {
+                View v = null;
+                try {
+
+                    // Getting view from the layout file info_window_layout
+                    v = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+
+                    // Getting reference to the TextView to set latitude
+
+                    TextView Nombre = (TextView) v.findViewById(R.id.nameTxt);
+                    TextView Info = (TextView) v.findViewById(R.id.addressTxt);
+                    ImageView img = (ImageView) v.findViewById(R.id.clientPic);
+                    int imageId = getResources().getIdentifier(String.valueOf(arg0.getTag()),
+                            "drawable", getPackageName());
+                    img.setImageResource(imageId);
+                    Nombre.setText(arg0.getTitle());
+                    Info.setText(arg0.getSnippet());
+
+                } catch (Exception ev) {
+                    System.out.print(ev.getMessage());
+                }
+
+                return v;
+            }
+        });
+        //
+
+
+
+
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
-
-            mMap.setMyLocationEnabled(true);
-
+        mMap.setMyLocationEnabled(true);
+          mMap.getMyLocation();
         }
 
     }
+public void _setmap(GoogleMap googleMap,LatLng posion,String titulo,String info,String mini,String icon){
+    int id = getResources().getIdentifier(icon, "drawable", getPackageName());
+        Marker dos =   googleMap.addMarker(new MarkerOptions()
+            .position(posion)
+            .title(titulo)
+            .snippet(info)
+            .icon(BitmapDescriptorFactory.fromResource(id)));
+    dos.setTag(mini);
+}
+
 
 
     @Override
@@ -176,6 +179,7 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
                 if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
 
                         buildGoogleApiClient();
+                    mMap.animateCamera(CameraUpdateFactory.zoomBy(16f));
 
                     mMap.setMyLocationEnabled(true);
                 }
@@ -228,7 +232,12 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
 
         currentUserLocationMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(12));
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(32.5299798,-116.9874806))
+                .zoom(17.5f)
+                .bearing(25).tilt(10).build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
 
         if(googleApiClient != null){
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
@@ -258,4 +267,5 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
 }

@@ -5,16 +5,24 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.reborn30.maptecs.R;
 
 public class TEC extends AppCompatActivity implements IUni {
-    @Override
-    public String TypoUniversidad() {
-     return "Instituto Tecnologico de Tijuana";
 
+    @Override
+    public String Q() {
+        return "q";
     }
 
     @Override
-    public String Descripcion() {
+    public String Quint() {
+        return "quint";
+    }
 
-      return  getString(R.string.DescripcionITT);
+    @Override
+    public String Metalmecanica() {
+        return null;
+    }
 
+    @Override
+    public String ed600() {
+        return "edi600";
     }
 }

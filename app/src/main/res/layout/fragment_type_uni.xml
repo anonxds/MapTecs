@@ -2,39 +2,55 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".TypeUniFragment"
     android:id="@+id/container"
-    android:background="@color/colorPrimary">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+android:isScrollContainer="true"
 
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".TypeUniFragment">
 
-    <TextView
-        android:id="@+id/txtNombreUni"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="51dp"
-        android:layout_marginEnd="178dp"
-        android:layout_marginBottom="441dp"
-        android:text=" "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="61dp"
-        android:layout_marginEnd="178dp"
-        android:layout_marginBottom="361dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombreUni" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="178dp"
+                android:src="@drawable/home" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/DescripcionITT" />
+
+            <Button
+                android:id="@+id/mapa"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+
+                android:text="Ver Mapa"
+
+                android:textAlignment="center"
+
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+
 </android.support.constraint.ConstraintLayout>
+
+
