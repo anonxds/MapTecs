@@ -2,36 +2,43 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/Unifo"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/white"
     android:gravity="center"
+    android:isScrollContainer="true"
     android:orientation="vertical"
-android:isScrollContainer="true"
 
     tools:context=".TypeUniFragment">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
-                android:layout_height="178dp"
+                android:layout_height="268dp"
                 android:src="@drawable/home" />
+
             <TextView
+                android:id="@+id/lbldes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/DescripcionITT" />
+                android:text="Una descrrpcion detallada"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/mapa"
@@ -46,9 +53,6 @@ android:isScrollContainer="true"
 
         </LinearLayout>
     </ScrollView>
-
-
-
 
 
 </android.support.constraint.ConstraintLayout>

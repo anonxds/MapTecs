@@ -5,4 +5,6 @@ public interface IUni  {
     String Quint();
     String Metalmecanica();
     String ed600();
+    String tomas();
+    String otay();
 }
