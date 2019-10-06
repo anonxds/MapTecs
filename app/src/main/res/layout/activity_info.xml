@@ -35,44 +35,49 @@
             android:src="@drawable/itt" />
     </LinearLayout>
 
-
-    <ImageButton
-        android:id="@+id/btntomas"
-        android:layout_width="wrap_content"
-        android:layout_height="264dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/home" />
-
-    <TextView
-        android:id="@+id/textView2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tomas Aquino \n Av Castillo de Chapultepec 562, Tomas Aquino, 22414 Tijuana, B.C."
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:layout_height="263dp">
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="?android:attr/listDivider"
-        android:visibility="visible" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="162dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="Tomas Aquino \n Av Castillo de Chapultepec 562, Tomas Aquino, 22414 Tijuana, B.C."
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
-    <ImageButton
-        android:id="@+id/btnotay"
-        android:layout_width="match_parent"
-        android:layout_height="314dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/otay" />
+        <ImageButton
+            android:id="@+id/btntomas"
+            android:layout_width="225dp"
+            android:layout_height="211dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/home" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView3"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Otay \n Blvd. Industrial s/n, Cd Industrial, 22430 Tijuana, B.C."
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:layout_height="311dp"
+        android:background="#C2DD6A">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="150dp"
+            android:layout_height="121dp"
+            android:layout_marginTop="60dp"
+            android:text="Otay \n Blvd. Industrial s/n, Cd Industrial, 22430 Tijuana, B.C."
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/btnotay"
+            android:layout_width="241dp"
+            android:layout_height="221dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/otay" />
+    </LinearLayout>
 
 </LinearLayout>

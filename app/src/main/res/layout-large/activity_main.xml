@@ -7,21 +7,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    android:isScrollContainer="true">
+    android:background="@color/black">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="110dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/white"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="10dp"
-            android:layout_height="76dp"
+            android:layout_height="86dp"
             android:layout_weight="1"
             android:src="@drawable/tecnm" />
 
@@ -29,58 +29,77 @@
             android:id="@+id/txtinformation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:text="Seleccione Modulo"
             android:textAlignment="center"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/logotec"
             android:layout_width="8dp"
-            android:layout_height="78dp"
+            android:layout_height="88dp"
             android:layout_weight="1"
             android:src="@drawable/itt" />
     </LinearLayout>
 
-
-    <ImageButton
-        android:id="@+id/btntomas"
-        android:layout_width="wrap_content"
-        android:layout_height="292dp"
-        android:scaleType="centerCrop"
-        android:onClick="tomas"
-        android:src="@drawable/home" />
-
-    <TextView
-        android:id="@+id/textView2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tomas Aquino \n Av Castillo de Chapultepec 562, Tomas Aquino, 22414 Tijuana, B.C."
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:layout_height="320dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/colorPrimary">
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="?android:attr/listDivider"
-        android:visibility="visible" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="162dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="80dp"
+            android:text="@string/tomas"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="19sp" />
 
-    <ImageButton
-        android:id="@+id/btnotay"
-        android:layout_width="match_parent"
-        android:layout_height="314dp"
-        android:scaleType="centerCrop"
-        android:onClick="otay"
-        android:src="@drawable/otay" />
+        <ImageButton
+            android:id="@+id/btntomas"
+            android:layout_width="268dp"
+            android:layout_height="242dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerCrop"
+            android:onClick="tomas"
+            android:src="@drawable/home" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView3"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Otay \n Blvd. Industrial s/n, Cd Industrial, 22430 Tijuana, B.C."
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:layout_height="374dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#C2DD6A">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="100dp"
+            android:text="@string/otay"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="19sp" />
+
+        <ImageButton
+            android:id="@+id/btnotay"
+            android:layout_width="284dp"
+            android:layout_height="244dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="50dp"
+            android:scaleType="centerCrop"
+            android:onClick="otay"
+            android:src="@drawable/otay" />
+    </LinearLayout>
 
 </LinearLayout>
