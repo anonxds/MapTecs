@@ -13,6 +13,13 @@
         android:layout_height="135dp"
         android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/btnfiltros"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+
         <TextView
             android:id="@+id/txtinfo"
             android:layout_width="0dp"
@@ -30,14 +37,13 @@
     </LinearLayout>
 
 
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="800dp"
+        android:layout_height="500dp"
+        tools:context=".TECMapActivity" />
 
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="800dp"
-    android:layout_height="800dp"
-    tools:context=".TECMapActivity"
-  />
 </LinearLayout>

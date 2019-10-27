@@ -48,6 +48,7 @@
         android:layout_height="320dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/colorPrimary">
 
         <TextView
@@ -67,8 +68,8 @@
             android:layout_height="242dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:scaleType="centerCrop"
             android:onClick="tomas"
+            android:scaleType="centerCrop"
             android:src="@drawable/home" />
     </LinearLayout>
 

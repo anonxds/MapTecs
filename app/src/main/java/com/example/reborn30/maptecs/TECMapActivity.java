@@ -12,9 +12,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +44,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class TECMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        com.google.android.gms.location.LocationListener {
+        com.google.android.gms.location.LocationListener,BottomFilter.IbottomFilter {
 
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
@@ -46,24 +52,6 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
     private Location lastLocation;
     private Marker currentUserLocationMarker;
     private static final  int Request_User_location_code=99;
-    TextView informacion;
-    ImageView pre;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tecmap);
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-            checkUserLocationPermission();
-        }
-        informacion = findViewById(R.id.txtinfo);
-        pre = findViewById(R.id.foto);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-    }
     static final LatLng ed300 = new LatLng(32.530269, -116.988077);
     static  final  LatLng EstaMes = new LatLng(   32.528844, -116.988736);
     static  final  LatLng CAFE = new LatLng(   32.528954, -116.988263);
@@ -80,15 +68,65 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
     static  final LatLng EDI600 = new LatLng(32.531153, -116.986074);
     static  final LatLng coorbioq = new LatLng(32.530933, -116.985960);
     static  final LatLng biblioteca = new LatLng(32.530722, -116.987242);
-     static  final LatLng teatro = new LatLng(32.530652, -116.987800);
-     static final LatLng estaAlum = new LatLng(32.531239, -116.987254);
-     static  final LatLng estaAlum2 = new LatLng(32.529784, -116.986364);
-    Marker lastOpenned = null;
+    static  final LatLng teatro = new LatLng(32.530652, -116.987800);
+    static final LatLng estaAlum = new LatLng(32.531239, -116.987254);
+    static  final LatLng estaAlum2 = new LatLng(32.529784, -116.986364);
+    private Marker estaAlumno,
+            estaAlumn01,
+            teatr,
+            salonesq,
+            salones_500,
+            LaboratioC,
+            electromecanica,
+            salones_200,
+            salones_300,
+            salones_600,
+            cafeteria,
+            estacionamiento,
+            coormetalmec,
+            coordinacionind,
+            coorbio,
+            LaboratorioMatatematicas,
+            LaboratioriodeRedes,
+            biblio;
 
-    private Marker estaAlumno,estaAlumn01, teatr,salonesq,salones_500,LaboratioC,electromecanica,salones_200,salones_300,salones_600,cafeteria,estacionamiento,coormetalmec,coordinacionind,coorbio,biblio;
-    Button centrar;
+    Marker lastOpenned = null;
+    TextView informacion;
+    ImageView pre;
+    Button btnfiltrar;
+    ListView _filtrar;
+    String data = "";
+
+     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tecmap);
+         informacion = findViewById(R.id.txtinfo);
+         pre = findViewById(R.id.foto);
+         btnfiltrar = findViewById(R.id.btnfiltros);
+         _filtrar = findViewById(R.id._filtracion);
+
+         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            checkUserLocationPermission();
+        }
+         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                 .findFragmentById(R.id.map);
+         mapFragment.getMapAsync(this);
+
+
+         btnfiltrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomFilter bt = new BottomFilter();
+                bt.show(getSupportFragmentManager(),"BottomFilter");
+            }
+        });
+
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         final String modulo = getIntent().getStringExtra("Nombre");
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.style_json));
@@ -97,7 +135,6 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
             case "Tomas":
                 ubicarmapa(32.528821, -116.986893,16.9f,25,10,32.526946, -116.986892,32.531263, -116.985820);
                 ubicacionesTomas(mMap);
-
                 //  mMap.getUiSettings().setScrollGesturesEnabled(false);
                 break;
             case "Otay":
@@ -106,52 +143,55 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
                         .zoom(18.5f)
                         .bearing(25).tilt(10).build();
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(ubicacion));
-
                 break;
         }
 
         mMap.setMinZoomPreference(mMap.getCameraPosition().zoom);
 
-//        centrar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                switch (modulo){
-//                    case "Tomas":
-//                        ubicarmapa(32.519913, -116.993464,17.5f,25,10,32.5292812,-116.9899659,32.530833,-116.9867787);
-//                        ubicacionesTomas(mMap);
-//                        break;
-//                    case "Otay":
-//
-//                        break;
-//                }
-//            }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
         mMap.setMyLocationEnabled(true);
           mMap.getMyLocation();
         }
+
+
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             public boolean onMarkerClick(Marker marker) {
                 // Check if there is an open info window
                 if (lastOpenned != null) {
                     // Close the info window
                     lastOpenned.hideInfoWindow();
-
                     if(marker.equals(salonesq)){
-                        informacion.setText("Salones Q101-Q103 \n Messas de ping pong");
+                        informacion.setText("\n\n Salones Q101-Q103 \n Messas de ping pong");
                         pre.setImageResource(R.drawable.salonesq);
                     }
                     if(marker.equals(salonesq)){
-                        informacion.setText("Salones Q101-Q103 \n Messas de ping pong");
+                        informacion.setText("\n\n Salones Q101-Q103 \n Messas de ping pong");
                         pre.setImageResource(R.drawable.salonesq1);
                     }
                     if(marker.equals(salones_500)){
-                        informacion.setText("Salones 500-510");
+                        informacion.setText("\n\n Salones 500-510");
                         pre.setImageResource(R.drawable.quint);
                     }
                     if(marker.equals(LaboratioC)){
-                        Intent i = new Intent(getBaseContext(),LugaresGrandes.class);
+                        Intent i = new Intent(getBaseContext(), LugaresGrandes.class);
+                        i.putExtra("Nombre","comp");
                         startActivity(i);
+                    }
+                    if(marker.equals(coormetalmec)){
+                        Intent i = new Intent(getBaseContext(), LugaresGrandes.class);
+                        i.putExtra("Nombre","metal");
+                        startActivity(i);
+                    }
+                    if(marker.equals(cafeteria)){
+                        informacion.setText("Cafeteria");
+                        pre.setImageResource(R.drawable._cafeteria);
+
+                    }
+                    if(marker.equals(teatr)){
+                        informacion.setText("Teatron Calafornix");
+                        pre.setImageResource(R.drawable._calafornix);
                     }
                     // Is the marker the same marker that was already open
                     if (lastOpenned.equals(marker)) {
@@ -171,19 +211,52 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
                 return true;
             }
         });
+        informacion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(String.valueOf(s).equals("Todo")){
+                 coorbio.setVisible(false);
+                 coordinacionind.setVisible(false);
+                 coormetalmec.setVisible(false);
+                 LaboratioC.setVisible(false);
+                }
+                if(String.valueOf(s).equals("Salones")){
+                    coorbio.setVisible(true);
+                    coordinacionind.setVisible(true);
+                    coormetalmec.setVisible(true);
+                    LaboratioC.setVisible(true);
+                }
+                if(String.valueOf(s).equals("Coordinaciones")){
+                    salones_200.setVisible(false);
+                    salones_300.setVisible(false);
+                    salones_500.setVisible(false);
+                    salones_600.setVisible(false);
+                    salonesq.setVisible(false);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
+
     void ubicarmapa(double x1,double x2,float zoom,int orientacion,int inclinacion,double restriccion1,double restriccion2,double restriccion3,double restriccion4){
         CameraPosition ubicacion = new CameraPosition.Builder().target(new LatLng(x1, x2))
                 .zoom(zoom)
                 .bearing(orientacion).tilt(inclinacion).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(ubicacion));
     }
-
-
     void ubicacionesTomas(GoogleMap googleMap){
-        IUni U;
-        U = new TEC();
       //  googleMap.setOnMarkerClickListener(this);
         String university = "university",coffe="coffee",parking="parking";
         salonesq = googleMap.addMarker(new MarkerOptions().position(Q).title("Salones Q").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
@@ -193,21 +266,21 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         salones_200 = googleMap.addMarker(new MarkerOptions().position(EDI200).title("Edificio 200").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
         salones_300 = googleMap.addMarker(new MarkerOptions().position(ed300).title("Edificio 300").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
         salones_600 = googleMap.addMarker(new MarkerOptions().position(EDI600).title("Edificio 600").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
-        cafeteria = googleMap.addMarker(new MarkerOptions().position(CAFE).title("Cafeteria").icon(BitmapDescriptorFactory.fromResource(R.drawable.cafe)));
+        cafeteria = googleMap.addMarker(new MarkerOptions().position(CAFE).title("Cafeteria").icon(BitmapDescriptorFactory.fromResource(R.drawable.cafeteria)));
         estacionamiento = googleMap.addMarker(new MarkerOptions().position(EstaMes).title("Estacionamiento de Maestros").icon(BitmapDescriptorFactory.fromResource(R.drawable.park)));
         coormetalmec = googleMap.addMarker(new MarkerOptions().position(METALMEC).title("Coordinacion Metal-Mecanica").icon(BitmapDescriptorFactory.fromResource(R.drawable.metalmec)));
         coordinacionind = googleMap.addMarker(new MarkerOptions().position(LABINDS).title("Coordinacion Industrial").icon(BitmapDescriptorFactory.fromResource(R.drawable.industrial)));
         coorbio =  googleMap.addMarker(new MarkerOptions().position(coorbioq).title("Coordinacion Bioquimica").icon(BitmapDescriptorFactory.fromResource(R.drawable.bioquni)));
         biblio =googleMap.addMarker(new MarkerOptions().position(biblioteca).title("Biblioteca").icon(BitmapDescriptorFactory.fromResource(R.drawable.book)));
-         teatr = googleMap.addMarker(new MarkerOptions().position(teatro).title("Teatro calafonix").icon(BitmapDescriptorFactory.fromResource(R.drawable.masks)));
-          estaAlumno = googleMap.addMarker(new MarkerOptions().position(estaAlum).title("Estacionamiento de Alumno").icon(BitmapDescriptorFactory.fromResource(R.drawable.park)));
+        teatr = googleMap.addMarker(new MarkerOptions().position(teatro).title("Teatro calafonix").icon(BitmapDescriptorFactory.fromResource(R.drawable.masks)));
+        estaAlumno = googleMap.addMarker(new MarkerOptions().position(estaAlum).title("Estacionamiento de Alumno").icon(BitmapDescriptorFactory.fromResource(R.drawable.park)));
         estaAlumn01 = googleMap.addMarker(new MarkerOptions().position(estaAlum2).title("Estacionamiento de Alumno").icon(BitmapDescriptorFactory.fromResource(R.drawable.park)));
+        LaboratorioMatatematicas = googleMap.addMarker(new MarkerOptions().position(LABMAT).title("Laboratiorio de Matematicas").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        LaboratioriodeRedes = googleMap.addMarker(new MarkerOptions().position(LABREDES).title("Laboratorio de Redes").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
 
-
-        _setmap(googleMap,LABMAT,"Labotarios de matematicas","Investigacion de matematicas","na",university);
-        _setmap(googleMap,LABREDES,"Laboratorio de redes","Lab E y redes","na",university);
     }
-    public void _setmap(GoogleMap googleMap,LatLng posion,String titulo,String info,String mini,String icon){
+
+    void _setmap(GoogleMap googleMap,LatLng posion,String titulo,String info,String mini,String icon){
     int id = getResources().getIdentifier(icon, "drawable", getPackageName());
         Marker dos =   googleMap.addMarker(new MarkerOptions()
             .position(posion)
@@ -294,8 +367,6 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         locationRequest.setFastestInterval(1100);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED) {
-
-
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         }
     }
@@ -311,5 +382,9 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
     }
 
 
-
+    @Override
+    public void onClickList(String item) {
+        informacion.setText(item);
+        Log.d("mensage",data);
+    }
 }
