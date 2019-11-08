@@ -22,15 +22,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LugaresGrandes"></activity>
+        <activity android:name=".LugaresGrandes" />
+        <activity android:name=".Menu.MainActivity"/>
         <activity android:name=".Menu.InformacionEscuela" />
         <activity
-            android:name=".Menu.MainActivity"
+            android:name=".SplashScreen2_0"
             android:screenOrientation="portrait"
-            android:theme="@style/Splashscreen">
+          >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

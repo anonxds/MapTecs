@@ -88,10 +88,9 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
             coorbio,
             LaboratorioMatatematicas,
             LaboratioriodeRedes,
-            biblio;
-
-    Marker lastOpenned = null;
-    TextView informacion;
+            biblio,
+            lastOpenned = null;
+    TextView informacion,_idfiltrar;
     ImageView pre;
     Button btnfiltrar;
     ListView _filtrar;
@@ -105,7 +104,7 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
          pre = findViewById(R.id.foto);
          btnfiltrar = findViewById(R.id.btnfiltros);
          _filtrar = findViewById(R.id._filtracion);
-
+        _idfiltrar = findViewById(R.id.idfiltro);
          if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             checkUserLocationPermission();
         }
@@ -145,54 +144,14 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(ubicacion));
                 break;
         }
-
-        mMap.setMinZoomPreference(mMap.getCameraPosition().zoom);
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            buildGoogleApiClient();
-        mMap.setMyLocationEnabled(true);
-          mMap.getMyLocation();
-        }
-
-
-
+        Log.d("Mensage",String.valueOf(_idfiltrar));
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             public boolean onMarkerClick(Marker marker) {
                 // Check if there is an open info window
                 if (lastOpenned != null) {
                     // Close the info window
                     lastOpenned.hideInfoWindow();
-                    if(marker.equals(salonesq)){
-                        informacion.setText("\n\n Salones Q101-Q103 \n Messas de ping pong");
-                        pre.setImageResource(R.drawable.salonesq);
-                    }
-                    if(marker.equals(salonesq)){
-                        informacion.setText("\n\n Salones Q101-Q103 \n Messas de ping pong");
-                        pre.setImageResource(R.drawable.salonesq1);
-                    }
-                    if(marker.equals(salones_500)){
-                        informacion.setText("\n\n Salones 500-510");
-                        pre.setImageResource(R.drawable.quint);
-                    }
-                    if(marker.equals(LaboratioC)){
-                        Intent i = new Intent(getBaseContext(), LugaresGrandes.class);
-                        i.putExtra("Nombre","comp");
-                        startActivity(i);
-                    }
-                    if(marker.equals(coormetalmec)){
-                        Intent i = new Intent(getBaseContext(), LugaresGrandes.class);
-                        i.putExtra("Nombre","metal");
-                        startActivity(i);
-                    }
-                    if(marker.equals(cafeteria)){
-                        informacion.setText("Cafeteria");
-                        pre.setImageResource(R.drawable._cafeteria);
-
-                    }
-                    if(marker.equals(teatr)){
-                        informacion.setText("Teatron Calafornix");
-                        pre.setImageResource(R.drawable._calafornix);
-                    }
+                    showInfo(marker);
                     // Is the marker the same marker that was already open
                     if (lastOpenned.equals(marker)) {
                         // Nullify the lastOpenned object
@@ -201,7 +160,6 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
                         return true;
                     }
                 }
-
                 // Open the info window for the marker
                 marker.showInfoWindow();
                 // Re-assign the last openned such that we can close it later
@@ -211,43 +169,131 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
                 return true;
             }
         });
-        informacion.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      _idfiltrar.addTextChangedListener(new TextWatcher() {
+          @Override
+          public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+          }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+          @Override
+          public void onTextChanged(CharSequence s, int start, int before, int count) {
+              filtrarPor(s);
+          }
+          @Override
+          public void afterTextChanged(Editable s) {
 
-                if(String.valueOf(s).equals("Todo")){
-                 coorbio.setVisible(false);
-                 coordinacionind.setVisible(false);
-                 coormetalmec.setVisible(false);
+          }
+      });
+        mMap.setMinZoomPreference(mMap.getCameraPosition().zoom);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            buildGoogleApiClient();
+            mMap.setMyLocationEnabled(true);
+            mMap.getMyLocation();
+        }
+    }
+
+    void showInfo(Marker marker){
+        if(marker.equals(salonesq)){
+            informacion.setText("\n\n Salones Q101-Q103 \n Messas de ping pong");
+            pre.setImageResource(R.drawable.salonesq);
+        }
+        if(marker.equals(salonesq)){
+            informacion.setText("\n\n Salones Q101-Q103 \n Messas de ping pong");
+            pre.setImageResource(R.drawable.salonesq1);
+        }
+        if(marker.equals(salones_500)){
+            informacion.setText("\n\n Salones 500-510");
+            pre.setImageResource(R.drawable.quint);
+        }
+        if(marker.equals(LaboratioC)){
+            Intent i = new Intent(getBaseContext(), LugaresGrandes.class);
+            i.putExtra("Nombre","comp");
+            startActivity(i);
+        }
+        if(marker.equals(coormetalmec)){
+            Intent i = new Intent(getBaseContext(), LugaresGrandes.class);
+            i.putExtra("Nombre","metal");
+            startActivity(i);
+        }
+        if(marker.equals(cafeteria)){
+            informacion.setText("Cafeteria");
+            pre.setImageResource(R.drawable._cafeteria);
+
+        }
+        if(marker.equals(teatr)){
+            informacion.setText("Teatron Calafornix");
+            pre.setImageResource(R.drawable._calafornix);
+        }
+    }
+
+    void filtrarPor(CharSequence s){
+
+         String Data = String.valueOf(s);
+         switch (Data){
+             case "Todo":
+                 estaAlumno.setVisible(true);
+                 estaAlumn01.setVisible(true);
+                 teatr.setVisible(true);
+                 salonesq.setVisible(true);
+                 salones_500.setVisible(true);
+                 LaboratioC.setVisible(true);
+                 electromecanica.setVisible(true);
+                 salones_200.setVisible(true);
+                 salones_300.setVisible(true);
+                 salones_600.setVisible(true);
+                 cafeteria.setVisible(true);
+                 estacionamiento.setVisible(true);
+                 coormetalmec.setVisible(true);
+                 coordinacionind.setVisible(true);
+                 coorbio.setVisible(true);
+                 LaboratorioMatatematicas.setVisible(true);
+                 LaboratioriodeRedes.setVisible(true);
+                 biblio.setVisible(true);
+                 break;
+             case "Salones":
+                 salonesq.setVisible(true);
+                 salones_500.setVisible(true);
+                 salones_200.setVisible(true);
+                 salones_300.setVisible(true);
+                 salones_600.setVisible(true);
+                 estaAlumno.setVisible(false);
+                 estaAlumn01.setVisible(false);
+                 teatr.setVisible(false);
                  LaboratioC.setVisible(false);
-                }
-                if(String.valueOf(s).equals("Salones")){
-                    coorbio.setVisible(true);
-                    coordinacionind.setVisible(true);
-                    coormetalmec.setVisible(true);
-                    LaboratioC.setVisible(true);
-                }
-                if(String.valueOf(s).equals("Coordinaciones")){
-                    salones_200.setVisible(false);
-                    salones_300.setVisible(false);
-                    salones_500.setVisible(false);
-                    salones_600.setVisible(false);
-                    salonesq.setVisible(false);
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
+                 electromecanica.setVisible(false);
+                 cafeteria.setVisible(false);
+                 estacionamiento.setVisible(false);
+                 coormetalmec.setVisible(false);
+                 coordinacionind.setVisible(false);
+                 coorbio.setVisible(false);
+                 LaboratorioMatatematicas.setVisible(false);
+                 LaboratioriodeRedes.setVisible(false);
+                 biblio.setVisible(false);
+                 break;
+             case "Coordinaciones":
+                 estaAlumno.setVisible(false);
+                 estaAlumn01.setVisible(false);
+                 teatr.setVisible(false);
+                 salonesq.setVisible(false);
+                 salones_500.setVisible(false);
+                 LaboratioC.setVisible(true);
+                 electromecanica.setVisible(false);
+                 salones_200.setVisible(false);
+                 salones_300.setVisible(false);
+                 salones_600.setVisible(false);
+                 cafeteria.setVisible(false);
+                 estacionamiento.setVisible(false);
+                 coormetalmec.setVisible(true);
+                 coordinacionind.setVisible(true);
+                 coorbio.setVisible(true);
+                 LaboratorioMatatematicas.setVisible(false);
+                 LaboratioriodeRedes.setVisible(false);
+                 biblio.setVisible(false);
+                 break;
+             case "Oficina":
+                 break;
+         }
     }
 
     void ubicarmapa(double x1,double x2,float zoom,int orientacion,int inclinacion,double restriccion1,double restriccion2,double restriccion3,double restriccion4){
@@ -279,16 +325,6 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         LaboratioriodeRedes = googleMap.addMarker(new MarkerOptions().position(LABREDES).title("Laboratorio de Redes").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
 
     }
-
-    void _setmap(GoogleMap googleMap,LatLng posion,String titulo,String info,String mini,String icon){
-    int id = getResources().getIdentifier(icon, "drawable", getPackageName());
-        Marker dos =   googleMap.addMarker(new MarkerOptions()
-            .position(posion)
-            .title(titulo)
-            .snippet(info)
-            .icon(BitmapDescriptorFactory.fromResource(id)));
-    dos.setTag(mini);
-}
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -384,7 +420,7 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
 
     @Override
     public void onClickList(String item) {
-        informacion.setText(item);
+        _idfiltrar.setText(item);
         Log.d("mensage",data);
     }
 }

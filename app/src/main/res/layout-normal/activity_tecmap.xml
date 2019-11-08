@@ -13,13 +13,6 @@
         android:layout_height="135dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnfiltros"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
-
         <TextView
             android:id="@+id/txtinfo"
             android:layout_width="0dp"
@@ -43,7 +36,26 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="800dp"
-        android:layout_height="500dp"
+        android:layout_height="480dp"
         tools:context=".TECMapActivity" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/btnfiltros"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Filtros" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/idfiltro"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
