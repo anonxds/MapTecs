@@ -52,59 +52,79 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
     private Location lastLocation;
     private Marker currentUserLocationMarker;
     private static final  int Request_User_location_code=99;
-    static final LatLng ed300 = new LatLng(32.530269, -116.988077);
+
     static  final  LatLng EstaMes = new LatLng(   32.528844, -116.988736);
-    static  final  LatLng CAFE = new LatLng(   32.528954, -116.988263);
-    static  final  LatLng LABREDES = new LatLng(   32.529267, -116.988568);
-    static  final  LatLng LABINDS = new LatLng(   32.529452, -116.988538);
-    static  final  LatLng LABBQI = new LatLng(   32.529141, -116.987756);
-    static  final  LatLng LABMAT = new LatLng(   32.529222, -116.988009);
-    static  final  LatLng LABELE = new LatLng(   32.530602, -116.986852);
-    static  final  LatLng EDIF500 = new LatLng(   32.530387, -116.987206);
-    static  final  LatLng METALMEC = new LatLng(   32.530402, -116.986365);
-    static  final  LatLng LABCOMP = new LatLng(   32.529734, -116.986889);
-    static  final  LatLng EDI200 = new LatLng(   32.529700, -116.988352);
-    static  final  LatLng Q = new LatLng(   32.529872, -116.987461);
-    static  final LatLng EDI600 = new LatLng(32.531153, -116.986074);
-    static  final LatLng coorbioq = new LatLng(32.530933, -116.985960);
-    static  final LatLng biblioteca = new LatLng(32.530722, -116.987242);
-    static  final LatLng teatro = new LatLng(32.530652, -116.987800);
     static final LatLng estaAlum = new LatLng(32.531239, -116.987254);
     static  final LatLng estaAlum2 = new LatLng(32.529784, -116.986364);
-    private Marker estaAlumno,
+
+
+    static  final  LatLng _labredes = new LatLng(32.529155, -116.988737);
+    static  final  LatLng CAFE = new LatLng(32.528960, -116.988229);
+    static  final  LatLng _editorial = new LatLng( 32.529522, -116.987973);
+    static  final  LatLng _labmatematicas = new LatLng(32.529178, -116.987991);
+
+    static final LatLng _edi100 = new LatLng(32.529707, -116.988343);
+    static  final  LatLng _edi200 = new LatLng(   32.529960, -116.988263);
+    static final LatLng _edi300 = new LatLng(32.530247, -116.988129);
+    static final LatLng _edi400 = new LatLng(32.530240, -116.986764);
+    static  final  LatLng _edi500 = new LatLng(   32.530365, -116.987170);
+    static  final LatLng _edi600 = new LatLng(32.531195, -116.986014);
+    static  final  LatLng _edifQ = new LatLng(   32.529786, -116.987486);
+
+    static  final  LatLng _sistemasC = new LatLng(32.529786, -116.986840);
+    static  final  LatLng _metalmecanicaC = new LatLng(32.530460, -116.986357);
+    static  final  LatLng _industrialC = new LatLng(32.529460, -116.988534);
+    static  final  LatLng _bioquimicaC = new LatLng(32.530950, -116.985959);
+
+
+    static  final  LatLng _labmetalmecanica = new LatLng(32.530589, -116.986858);
+    static  final  LatLng _labioqumica = new LatLng(   32.530869, -116.986618);
+
+    static  final  LatLng _calafornix = new LatLng(32.530603, -116.987788);
+    static  final  LatLng _biblioteca = new LatLng(32.530727, -116.987241);
+    static  final  LatLng _audiovisual = new LatLng(32.530277, -116.987532);
+
+     static  final LatLng _biosalones = new LatLng(32.530736, -116.986319);
+
+    private Marker
+            estaAlumno,
             estaAlumn01,
-            teatr,
-            salonesq,
-            salones_500,
-            LaboratioC,
-            electromecanica,
+            estacionamiento,
+            calafornix,
+            biblioteca,
+            salones_100,
             salones_200,
             salones_300,
+            salones_400,
+            salones_500,
             salones_600,
+            salones_q,
+            salones_bio,
             cafeteria,
-            estacionamiento,
-            coormetalmec,
-            coordinacionind,
-            coorbio,
-            LaboratorioMatatematicas,
-            LaboratioriodeRedes,
-            biblio,
+            papeleria,
+            audiovisual,
+            metalmecanicaC,
+            industrialC,
+            sistemasC,
+            bioquimicaC,
+            labmatematica,
+            labredes,
+            labelectromecanica,
+            labbioquimica,
             lastOpenned = null;
     TextView informacion,_idfiltrar;
-    ImageView pre;
     Button btnfiltrar;
     ListView _filtrar;
     String data = "";
+    Bundle bundle = new Bundle();
 
      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tecmap);
-         informacion = findViewById(R.id.txtinfo);
-         pre = findViewById(R.id.foto);
-         btnfiltrar = findViewById(R.id.btnfiltros);
          _filtrar = findViewById(R.id._filtracion);
         _idfiltrar = findViewById(R.id.idfiltro);
+        btnfiltrar = findViewById(R.id.btnfiltros);
          if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             checkUserLocationPermission();
         }
@@ -112,15 +132,13 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
          SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                  .findFragmentById(R.id.map);
          mapFragment.getMapAsync(this);
-
-
          btnfiltrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomFilter bt = new BottomFilter();
-                bt.show(getSupportFragmentManager(),"BottomFilter");
-            }
-        });
+             @Override
+             public void onClick(View v) {
+                 BottomFilter bt = new BottomFilter();
+                 bt.show(getSupportFragmentManager(),"BottomFilter");
+             }
+         });
 
     }
     @Override
@@ -192,104 +210,142 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
             mMap.getMyLocation();
         }
     }
-
     void showInfo(Marker marker){
-        if(marker.equals(salonesq)){
-            informacion.setText("\n\n Salones Q101-Q103 \n Messas de ping pong");
-            pre.setImageResource(R.drawable.salonesq);
+
+
+
+         if(marker.equals(salones_100)){
+            bundle.putString("id", "100");
         }
-        if(marker.equals(salonesq)){
-            informacion.setText("\n\n Salones Q101-Q103 \n Messas de ping pong");
-            pre.setImageResource(R.drawable.salonesq1);
+        if (marker.equals(salones_200)){
+            bundle.putString("id", "200");
+        }
+        if (marker.equals(salones_300)){
+             bundle.putString("id", "300");
+        }
+        if (marker.equals(salones_400)){
+            bundle.putString("id", "400");
         }
         if(marker.equals(salones_500)){
-            informacion.setText("\n\n Salones 500-510");
-            pre.setImageResource(R.drawable.quint);
+             bundle.putString("id", "500");
         }
-        if(marker.equals(LaboratioC)){
-            Intent i = new Intent(getBaseContext(), LugaresGrandes.class);
-            i.putExtra("Nombre","comp");
-            startActivity(i);
+        if(marker.equals(salones_600)){
+            bundle.putString("id", "600");
         }
-        if(marker.equals(coormetalmec)){
-            Intent i = new Intent(getBaseContext(), LugaresGrandes.class);
-            i.putExtra("Nombre","metal");
-            startActivity(i);
+        if (marker.equals(salones_q)){
+         bundle.putString("id", "Q");
         }
-        if(marker.equals(cafeteria)){
-            informacion.setText("Cafeteria");
-            pre.setImageResource(R.drawable._cafeteria);
+
+        if(marker.equals(sistemasC)){
+            bundle.putString("id","sc");
+        }
+        if(marker.equals(metalmecanicaC)){
+            bundle.putString("id","mc");
+        }
+        if (marker.equals(bioquimicaC)){
+           bundle.putString("id", "bc");
+        }
+        if (marker.equals(industrialC)){
+            bundle.putString("id", "ic");
+        }
+        if (marker.equals(labelectromecanica)){
+            bundle.putString("id","metal");
+        }
+        if (marker.equals(labredes)){
+               bundle.putString("id", "redes");
+        }
+        if(marker.equals(labmatematica)){
+              bundle.putString("id", "mate");
+        }
+        if(marker.equals(labbioquimica)){
+            bundle.putString("id","bio");
+        }
+        if (marker.equals(papeleria)){
+           bundle.putString("id", "papel");
 
         }
-        if(marker.equals(teatr)){
-            informacion.setText("Teatron Calafornix");
-            pre.setImageResource(R.drawable._calafornix);
+        if (marker.equals(audiovisual)){
+             bundle.putString("id", "audio");
         }
+
+        if(marker.equals(cafeteria)){
+            bundle.putString("id","cafeteria");
+        }
+        if(marker.equals(calafornix)){
+            bundle.putString("id","teatro");
+        }
+
+
+
+        InfopanelActivity bts = new InfopanelActivity();
+        bts.setArguments(bundle);
+        bts.show(getSupportFragmentManager(),"InfopanelActivity");
     }
 
     void filtrarPor(CharSequence s){
-
          String Data = String.valueOf(s);
          switch (Data){
              case "Todo":
                  estaAlumno.setVisible(true);
                  estaAlumn01.setVisible(true);
-                 teatr.setVisible(true);
-                 salonesq.setVisible(true);
+                 calafornix.setVisible(true);
+                 salones_q.setVisible(true);
                  salones_500.setVisible(true);
-                 LaboratioC.setVisible(true);
-                 electromecanica.setVisible(true);
+                 sistemasC.setVisible(true);
+                 labelectromecanica.setVisible(true);
                  salones_200.setVisible(true);
                  salones_300.setVisible(true);
                  salones_600.setVisible(true);
                  cafeteria.setVisible(true);
                  estacionamiento.setVisible(true);
-                 coormetalmec.setVisible(true);
-                 coordinacionind.setVisible(true);
-                 coorbio.setVisible(true);
-                 LaboratorioMatatematicas.setVisible(true);
-                 LaboratioriodeRedes.setVisible(true);
-                 biblio.setVisible(true);
+                 metalmecanicaC.setVisible(true);
+                 industrialC.setVisible(true);
+                 bioquimicaC.setVisible(true);
+                 labmatematica.setVisible(true);
+                 labredes.setVisible(true);
+                 biblioteca.setVisible(true);
                  break;
              case "Salones":
-                 salonesq.setVisible(true);
+                 salones_q.setVisible(true);
+                 salones_100.setVisible(true);
                  salones_500.setVisible(true);
                  salones_200.setVisible(true);
                  salones_300.setVisible(true);
+                 salones_400.setVisible(true);
                  salones_600.setVisible(true);
                  estaAlumno.setVisible(false);
                  estaAlumn01.setVisible(false);
-                 teatr.setVisible(false);
-                 LaboratioC.setVisible(false);
-                 electromecanica.setVisible(false);
+                 calafornix.setVisible(false);
+                 sistemasC.setVisible(false);
+                 labelectromecanica.setVisible(false);
                  cafeteria.setVisible(false);
                  estacionamiento.setVisible(false);
-                 coormetalmec.setVisible(false);
-                 coordinacionind.setVisible(false);
-                 coorbio.setVisible(false);
-                 LaboratorioMatatematicas.setVisible(false);
-                 LaboratioriodeRedes.setVisible(false);
-                 biblio.setVisible(false);
+                 metalmecanicaC.setVisible(false);
+                 industrialC.setVisible(false);
+                 bioquimicaC.setVisible(false);
+                 labmatematica.setVisible(false);
+                 labredes.setVisible(false);
+                 biblioteca.setVisible(false);
                  break;
              case "Coordinaciones":
                  estaAlumno.setVisible(false);
                  estaAlumn01.setVisible(false);
-                 teatr.setVisible(false);
-                 salonesq.setVisible(false);
+                 calafornix.setVisible(false);
+                 salones_q.setVisible(false);
                  salones_500.setVisible(false);
-                 LaboratioC.setVisible(true);
-                 electromecanica.setVisible(false);
+                 sistemasC.setVisible(true);
+                 labelectromecanica.setVisible(false);
                  salones_200.setVisible(false);
                  salones_300.setVisible(false);
                  salones_600.setVisible(false);
                  cafeteria.setVisible(false);
                  estacionamiento.setVisible(false);
-                 coormetalmec.setVisible(true);
-                 coordinacionind.setVisible(true);
-                 coorbio.setVisible(true);
-                 LaboratorioMatatematicas.setVisible(false);
-                 LaboratioriodeRedes.setVisible(false);
-                 biblio.setVisible(false);
+                 metalmecanicaC.setVisible(true);
+                 industrialC.setVisible(true);
+                 bioquimicaC.setVisible(true);
+                 labmatematica.setVisible(false);
+                 labredes.setVisible(false);
+                 biblioteca.setVisible(false);
                  break;
              case "Oficina":
                  break;
@@ -305,24 +361,36 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
     void ubicacionesTomas(GoogleMap googleMap){
       //  googleMap.setOnMarkerClickListener(this);
         String university = "university",coffe="coffee",parking="parking";
-        salonesq = googleMap.addMarker(new MarkerOptions().position(Q).title("Salones Q").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
-        salones_500= googleMap.addMarker(new MarkerOptions().position(EDIF500).title("Edificio 500").snippet("spofssr").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
-        LaboratioC = googleMap.addMarker(new MarkerOptions().position(LABCOMP).title("Laboratorio de computo").snippet("hey").icon(BitmapDescriptorFactory.fromResource(R.drawable.sisycomp1)));
-        electromecanica = googleMap.addMarker(new MarkerOptions().position(LABELE).title("Laboratorio de Electromecanica/Mecanica").snippet("Toca de nuevo para mas info").icon(BitmapDescriptorFactory.fromResource(R.drawable.gear)));
-        salones_200 = googleMap.addMarker(new MarkerOptions().position(EDI200).title("Edificio 200").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
-        salones_300 = googleMap.addMarker(new MarkerOptions().position(ed300).title("Edificio 300").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
-        salones_600 = googleMap.addMarker(new MarkerOptions().position(EDI600).title("Edificio 600").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
-        cafeteria = googleMap.addMarker(new MarkerOptions().position(CAFE).title("Cafeteria").icon(BitmapDescriptorFactory.fromResource(R.drawable.cafeteria)));
+        salones_100= googleMap.addMarker(new MarkerOptions().position(_edi100).title("Edificio 100").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        salones_200= googleMap.addMarker(new MarkerOptions().position(_edi200).title("Edificio 200").snippet("Salones/Aulamagna").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        salones_300= googleMap.addMarker(new MarkerOptions().position(_edi300).title("Edificio 500").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        salones_400= googleMap.addMarker(new MarkerOptions().position(_edi400).title("Edificio 400").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        salones_500= googleMap.addMarker(new MarkerOptions().position(_edi500).title("Edificio 500").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        salones_600= googleMap.addMarker(new MarkerOptions().position(_edi600).title("Edificio 600").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        salones_q= googleMap.addMarker(new MarkerOptions().position(_edifQ).title("Edificio Q").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        salones_bio= googleMap.addMarker(new MarkerOptions().position(_biosalones).title("Bioquimica").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+
+        labredes= googleMap.addMarker(new MarkerOptions().position(_labredes).title("Laboratorio redes").snippet("Laboratiorio.Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        cafeteria= googleMap.addMarker(new MarkerOptions().position(CAFE).title("Cafeteria").snippet("Cafeteria/Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.cafeteria)));
+        labmatematica= googleMap.addMarker(new MarkerOptions().position(_labmatematicas).title("Oficinas").snippet("Ofinica/Laboratorio").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        papeleria= googleMap.addMarker(new MarkerOptions().position(_editorial).title("Papeleria").snippet("Editorial/Enfermeria/Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        audiovisual= googleMap.addMarker(new MarkerOptions().position(_audiovisual).title("Audiovisual").snippet("Audiovisual/Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+
+        calafornix= googleMap.addMarker(new MarkerOptions().position(_calafornix).title("Calafornix").snippet("Teatro").icon(BitmapDescriptorFactory.fromResource(R.drawable.masks)));
+        biblioteca= googleMap.addMarker(new MarkerOptions().position(_biblioteca).title("Biblioteca").snippet(" ").icon(BitmapDescriptorFactory.fromResource(R.drawable.book)));
+
+       labelectromecanica = googleMap.addMarker(new MarkerOptions().position(_labmetalmecanica).title("Laboratorio Electromecanica").snippet("Mecanica").icon(BitmapDescriptorFactory.fromResource(R.drawable.gears)));
+       labbioquimica = googleMap.addMarker(new MarkerOptions().position(_labioqumica).title("Laboratiorio Bioquimica").snippet("Micrologia").icon(BitmapDescriptorFactory.fromResource(R.drawable.icobio)));
+
+        sistemasC= googleMap.addMarker(new MarkerOptions().position(_sistemasC).title("Coordinacion Sistemas computacionales").snippet("Laboratiorio/Salones/Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.coor)));
+        industrialC= googleMap.addMarker(new MarkerOptions().position(_industrialC).title("Coordinacion Industrial").snippet("Laboratiorios/salones/Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.coor)));
+        bioquimicaC= googleMap.addMarker(new MarkerOptions().position(_bioquimicaC).title("Coordinacion bioquimica").snippet("Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.coor)));
+        metalmecanicaC= googleMap.addMarker(new MarkerOptions().position(_metalmecanicaC).title("Coordinacion Metalmecanica").snippet("Oficinas/Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.coor)));
+
+
         estacionamiento = googleMap.addMarker(new MarkerOptions().position(EstaMes).title("Estacionamiento de Maestros").icon(BitmapDescriptorFactory.fromResource(R.drawable.park)));
-        coormetalmec = googleMap.addMarker(new MarkerOptions().position(METALMEC).title("Coordinacion Metal-Mecanica").icon(BitmapDescriptorFactory.fromResource(R.drawable.metalmec)));
-        coordinacionind = googleMap.addMarker(new MarkerOptions().position(LABINDS).title("Coordinacion Industrial").icon(BitmapDescriptorFactory.fromResource(R.drawable.industrial)));
-        coorbio =  googleMap.addMarker(new MarkerOptions().position(coorbioq).title("Coordinacion Bioquimica").icon(BitmapDescriptorFactory.fromResource(R.drawable.bioquni)));
-        biblio =googleMap.addMarker(new MarkerOptions().position(biblioteca).title("Biblioteca").icon(BitmapDescriptorFactory.fromResource(R.drawable.book)));
-        teatr = googleMap.addMarker(new MarkerOptions().position(teatro).title("Teatro calafonix").icon(BitmapDescriptorFactory.fromResource(R.drawable.masks)));
         estaAlumno = googleMap.addMarker(new MarkerOptions().position(estaAlum).title("Estacionamiento de Alumno").icon(BitmapDescriptorFactory.fromResource(R.drawable.park)));
         estaAlumn01 = googleMap.addMarker(new MarkerOptions().position(estaAlum2).title("Estacionamiento de Alumno").icon(BitmapDescriptorFactory.fromResource(R.drawable.park)));
-        LaboratorioMatatematicas = googleMap.addMarker(new MarkerOptions().position(LABMAT).title("Laboratiorio de Matematicas").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
-        LaboratioriodeRedes = googleMap.addMarker(new MarkerOptions().position(LABREDES).title("Laboratorio de Redes").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
 
     }
 
