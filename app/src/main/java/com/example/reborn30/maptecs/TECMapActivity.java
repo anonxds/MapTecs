@@ -42,6 +42,8 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class TECMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener,BottomFilter.IbottomFilter {
@@ -112,7 +114,7 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
             labelectromecanica,
             labbioquimica,
             lastOpenned = null;
-    TextView informacion,_idfiltrar;
+    TextView _idfiltrar;
     Button btnfiltrar;
     ListView _filtrar;
     String data = "";
@@ -150,7 +152,10 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
 
         switch (modulo){
             case "Tomas":
-                ubicarmapa(32.528821, -116.986893,16.9f,25,10,32.526946, -116.986892,32.531263, -116.985820);
+                ubicarmapa(32.529213, -116.987736,16.9f,25,10,32.526946, -116.986892,32.531263, -116.985820);
+                 LatLngBounds AUSTRALIA = new LatLngBounds(new LatLng(32.528598, -116.988322), new LatLng( 32.531176, -116.984685));
+
+                mMap.setLatLngBoundsForCameraTarget(AUSTRALIA);
                 ubicacionesTomas(mMap);
                 //  mMap.getUiSettings().setScrollGesturesEnabled(false);
                 break;
@@ -210,9 +215,34 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
             mMap.getMyLocation();
         }
     }
+    //
+    private ArrayList<LatLng> makeCircle(LatLng centre, double radius)
+    {
+        ArrayList<LatLng> points = new ArrayList<LatLng>();
+        double EARTH_RADIUS = 6378100.0;
+        // Convert to radians.
+        double lat = centre.latitude * Math.PI / 180.0;
+        double lon = centre.longitude * Math.PI / 180.0;
+        for (double t = 0; t <= Math.PI * 2; t += 0.3)
+        {
+            // y
+            double latPoint = lat + (radius / EARTH_RADIUS) * Math.sin(t);
+            // x
+            double lonPoint = lon + (radius / EARTH_RADIUS) * Math.cos(t) / Math.cos(lat);
+
+            // saving the location on circle as a LatLng point
+            LatLng point =new LatLng(latPoint * 180.0 / Math.PI, lonPoint * 180.0 / Math.PI);
+
+            // here mMap is my GoogleMap object
+            mMap.addMarker(new MarkerOptions().position(point));
+
+            // now here note that same point(lat/lng) is used for marker as well as saved in the ArrayList
+            points.add(point);
+        }
+        return points;
+    }
+    //
     void showInfo(Marker marker){
-
-
 
          if(marker.equals(salones_100)){
             bundle.putString("id", "100");
@@ -274,8 +304,6 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         if(marker.equals(calafornix)){
             bundle.putString("id","teatro");
         }
-
-
 
         InfopanelActivity bts = new InfopanelActivity();
         bts.setArguments(bundle);
@@ -360,7 +388,6 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
     }
     void ubicacionesTomas(GoogleMap googleMap){
       //  googleMap.setOnMarkerClickListener(this);
-        String university = "university",coffe="coffee",parking="parking";
         salones_100= googleMap.addMarker(new MarkerOptions().position(_edi100).title("Edificio 100").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
         salones_200= googleMap.addMarker(new MarkerOptions().position(_edi200).title("Edificio 200").snippet("Salones/Aulamagna").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
         salones_300= googleMap.addMarker(new MarkerOptions().position(_edi300).title("Edificio 500").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
