@@ -26,6 +26,13 @@ public class ImageAdapter extends PagerAdapter {
             case "Otay":
                 mImageIds = new int[]{R.drawable.otay1,R.drawable.otay2,R.drawable.otay4,R.drawable.otay};
                 break;
+            case "Q":
+                mImageIds = new int[]{R.drawable.iedificioq,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos};
+                break;
+            case "bioblioteca":
+                mImageIds = new int[]{R.drawable.bibl_1,R.drawable.bio_2,R.drawable.biob_2,R.drawable.rosa_de_los_vientos};
+
+                break;
         }
       return mImageIds;
     }

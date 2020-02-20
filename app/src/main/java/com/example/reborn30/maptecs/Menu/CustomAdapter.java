@@ -39,11 +39,7 @@ public class CustomAdapter extends ArrayAdapter<DataItem> {
         Dataholder holder = null;
         if(convertView == null){
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-            convertView = inflater.inflate(layoutRID, parent,false);
-            holder = new Dataholder();
-            holder.ivUNI = (ImageView)convertView.findViewById(R.id.imgUNI);
-            holder.txtUNI = (TextView)convertView.findViewById(R.id.txtdes);
-            convertView.setTag(holder);
+
         }
         else {
             holder =  (Dataholder)convertView.getTag();

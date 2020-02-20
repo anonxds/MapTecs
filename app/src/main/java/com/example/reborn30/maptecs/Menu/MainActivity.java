@@ -22,15 +22,15 @@ public class MainActivity extends AppCompatActivity {
     IUni universidad;
     public void tomas(View view){
         universidad = new TEC();
-        Intent i = new Intent(getBaseContext(),InformacionEscuela.class);
-        i.putExtra("descripcion",universidad.tomas());
+        Intent i = new Intent(getBaseContext(), InformacionEscuela.class);
+        i.putExtra("descripcion", universidad.tomas());
         i.putExtra("Nombre","Tomas");
         startActivity(i);
     }
     public void otay(View view){
         universidad = new TEC();
-        Intent i = new Intent(getBaseContext(),InformacionEscuela.class);
-        i.putExtra("descripcion",universidad.otay());
+        Intent i = new Intent(getBaseContext(), InformacionEscuela.class);
+        i.putExtra("descripcion", universidad.otay());
         i.putExtra("Nombre","Otay");
         startActivity(i);
     }

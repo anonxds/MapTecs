@@ -5,25 +5,47 @@
     android:id="@+id/Unifo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/white"
     android:gravity="center"
     android:isScrollContainer="true"
     android:orientation="vertical"
 
     >
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/lblunidad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Unidad"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/white"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,10 +53,32 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/imageView"
+            <TextView
+                android:id="@+id/lbldes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Una descripcion detallada"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/mapa"
                 android:layout_width="wrap_content"
-                android:layout_height="268dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="8dp"
+
+                android:text="@string/btn_ver_mapa"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorAccent"
+                android:padding="8dp"
                 android:src="@drawable/home">
 
                 <com.itsronald.widget.ViewPagerIndicator
@@ -46,31 +90,6 @@
 
 
             </android.support.v4.view.ViewPager>
-
-            <TextView
-                android:id="@+id/lbldes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
-                android:text="Una descrrpcion detallada"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/mapa"
-                android:layout_width="match_parent"
-                android:layout_height="57dp"
-
-                android:layout_marginLeft="10dp"
-
-                android:layout_marginTop="10dp"
-
-                android:layout_marginRight="10dp"
-                android:text="Ver Mapa"
-                android:textAlignment="center"
-                android:textColor="@color/black" />
 
         </LinearLayout>
     </ScrollView>

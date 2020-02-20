@@ -4,25 +4,18 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="selecciona_unidad">Selecciona una unidad</string>
+    <string name="btn_ver_mapa">Ver mapa</string>
 
     <string name="DescripcionITT">Instituto Tecnologico de Tijuana perteneciente a los Tecnologicos Nacionales de Mexico.
-        "\n"
-    Se especializa en la formacion de especialistas en ingenieria principalmente y licenciaturas para el desarrollo profesional capaces de
-    mostrar su habilidades y dar una solucion que se presenten en un trabajo.
-        "\n"
-        "\n"
-
-        Entre las carreras mas populares son: "\n"
-        ● Electromecanica "\n"
-        ● Electronica  "\n"
-        ● Sistemas Computacionales "\n"
-        ● Industrial
-
+        Se especializa en la formacion de especialistas en ingenieria principalmente y licenciaturas para el desarrollo profesional capaces de
+        mostrar su habilidades y dar una solucion que se presenten en un trabajo.
     </string>
-
     <string name="DescripcionUABC">Es otra escuela ya sea mas popular o menos popular que la que esta a lado de ella</string>
-    <string name="otay"><b>Otay</b> \n Blvd. Industrial s/n, Cd Industrial, 22430 Tijuana, B.C.</string>
-    <string name="tomas"><b>Tomas Aquino</b> \n Av Castillo de Chapultepec 562, Tomas Aquino, 22414 Tijuana, B.C.</string>
+    <string name="otay">Unidad Otay</string>
+    <string name="tomas">Unidad Tomas Aquino.</string>
+    <string name="direccion_otay">Blvd. Industrial s/n, Cd Industrial, 22430 Tijuana, B.C.</string>
+    <string name="direccion_tomas">Av Castillo de Chapultepec 562, Tomas Aquino, 22414 Tijuana, B.C.</string>
     <string name="comp">"M.A. Gabriela Lourdes Tapia González Jefe de Departamento de Sistemas y Computación \n Teléfono.(664)  607 84 00 ext. 139 \n Correo oficial: concursosdsc@tectijuana.edu.mx \n Calzada Del Tecnológico S/N, Fraccionamiento Tomas Aquino. Tijuana, Baja California. C.P. 22414"</string>
     <string name="metal"></string>
 </resources>

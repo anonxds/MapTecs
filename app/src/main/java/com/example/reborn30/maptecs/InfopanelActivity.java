@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,11 @@ public class InfopanelActivity extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.infopanel,container,false);
         foto = v.findViewById(R.id.idimg);
+        ViewPager vp = v.findViewById(R.id.imageView2);
         String ubicacion = getArguments().getString("id");
         description = v.findViewById(R.id.idinformation1);
+        vp.setVisibility(View.GONE);
+
         switch (ubicacion){
             case  "100":
               //  foto.setImageResource(R.drawable.);
@@ -39,7 +43,11 @@ public class InfopanelActivity extends BottomSheetDialogFragment {
                 description.setText("Salones del 400 al 410");
                 break;
             case "Q":
-                foto.setImageResource(R.drawable.iedificioq);
+                foto.setVisibility(View.GONE);
+                vp.setVisibility(View.VISIBLE);
+                ImageAdapter adp = new ImageAdapter(getContext(),"Q");
+                vp.setAdapter(adp);
+               // foto.setImageResource(R.drawable.iedificioq);
                 description.setText("Salones del q1 al q3 \n Mesas de ping-pong");
                 break;
             case "600":
@@ -78,6 +86,13 @@ public class InfopanelActivity extends BottomSheetDialogFragment {
                 foto.setImageResource(R.drawable.iaudio);
                 description.setText("Audio visual, \n Asesorias");
                 break;
+            case  "bioblioteca":
+                foto.setVisibility(View.GONE);
+                vp.setVisibility(View.VISIBLE);
+                ImageAdapter adap = new ImageAdapter(getContext(),"bioblioteca");
+                vp.setAdapter(adap);
+                description.setText("Biblioteca, \n Computadoras, Cubiculos");
+
 
         }
         return v;

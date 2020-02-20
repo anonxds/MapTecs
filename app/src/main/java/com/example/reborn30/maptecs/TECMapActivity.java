@@ -118,7 +118,7 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
             labbioquimica,
             lastOpenned = null;
     TextView _idfiltrar;
-    Button btnfiltrar;
+    Button btnfiltrar,_btnbuscar;
     ListView _filtrar;
     String data = "";
     Bundle bundle = new Bundle();
@@ -145,6 +145,7 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
          _filtrar = findViewById(R.id._filtracion);
         _idfiltrar = findViewById(R.id.idfiltro);
         btnfiltrar = findViewById(R.id.btnfiltros);
+        _btnbuscar = findViewById(R.id.btnbuscar);
          if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             checkUserLocationPermission();
         }
@@ -159,6 +160,13 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
                  bt.show(getSupportFragmentManager(),"BottomFilter");
              }
          });
+         _btnbuscar.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 Intent i = new Intent(getBaseContext(),LegendActivity.class);
+                 startActivity(i);
+             }
+         });
 
     }
     @Override
@@ -170,17 +178,17 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         switch (modulo){
             case "Tomas":
                 ubicarmapa(32.529213, -116.987736,16.9f,25,10,32.526946, -116.986892,32.531263, -116.985820);
-                 LatLngBounds AUSTRALIA = new LatLngBounds(new LatLng(32.528598, -116.988322), new LatLng( 32.531176, -116.984685));
+                LatLngBounds AUSTRALIA = new LatLngBounds(new LatLng(32.528598, -116.988322), new LatLng( 32.531176, -116.984685));
                 mMap.setLatLngBoundsForCameraTarget(AUSTRALIA);
-              //  ubicacionesTomas(mMap);
+                ubicacionesTomas(mMap);
                 //  mMap.getUiSettings().setScrollGesturesEnabled(false);
                 break;
             case "Otay":
-              //  ubicarmapa(32.5349911,-116.9281903,17.5f,25,10,32.5349911,-116.9281903,32.5355519,-116.9272247);
-                CameraPosition ubicacion = new CameraPosition.Builder().target(new LatLng(32.529735, -116.987606))
-                        .zoom(18.5f)
-                        .bearing(25).tilt(10).build();
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(ubicacion));
+
+                ubicarmapa( 32.535236, -116.926399,16.9f,25,10,32.526946, -116.986892,32.531263, -116.985820);
+                LatLngBounds JAPON = new LatLngBounds(new LatLng(32.531835, -116.929663), new LatLng( 32.538346, -116.922500));
+                mMap.setLatLngBoundsForCameraTarget(JAPON);
+
                 break;
         }
         Log.d("Mensage",String.valueOf(_idfiltrar));
@@ -297,6 +305,10 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         }
         if(marker.equals(calafornix)){
             bundle.putString("id","teatro");
+        }
+        if(marker.equals(biblioteca)){
+            bundle.putString("id","bioblioteca");
+
         }
 
         InfopanelActivity bts = new InfopanelActivity();
@@ -467,7 +479,7 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title("current");
+        markerOptions.title("Mi ubicacion");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
         currentUserLocationMarker = mMap.addMarker(markerOptions);

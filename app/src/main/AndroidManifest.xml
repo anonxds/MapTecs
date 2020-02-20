@@ -16,15 +16,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".LegendActivity"></activity>
         <activity android:name=".LugaresGrandes" />
-        <activity android:name=".Menu.MainActivity"/>
+        <activity android:name=".Menu.MainActivity" />
         <activity android:name=".Menu.InformacionEscuela" />
         <activity
             android:name=".SplashScreen2_0"
-            android:screenOrientation="portrait"
-          >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
