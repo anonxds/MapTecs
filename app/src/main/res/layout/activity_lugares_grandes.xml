@@ -9,6 +9,17 @@
     android:orientation="vertical"
     tools:context=".LugaresGrandes">
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="Preguntas Frecuentes"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
     <ListView
         android:id="@+id/listquestion"
         android:layout_width="fill_parent"
@@ -17,12 +28,5 @@
         android:dividerHeight="0.1dp">
 
     </ListView>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/id_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

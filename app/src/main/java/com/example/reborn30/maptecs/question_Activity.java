@@ -27,18 +27,25 @@ public class question_Activity extends AppCompatActivity {
 
     public void set_information(int id, TextView titulo, TextView descripcion,String tituloS, ImageView img){
         String _description = null;
+        int i = 0;
         switch (id){
             case 0:
                 _description = "blah, blah";
+                 i = R.drawable.question;
+
                 break;
             case 1:
                 _description = "blah, blah,blah";
+                i = R.drawable.q_1;
+
                 break;
             case 2:
                 _description = "blah, blah,blah,blah";
+                i = R.drawable.q_2;
+
                 break;
         }
         titulo.setText(tituloS);
         descripcion.setText(_description);
-    }
+        img.setImageResource(i);    }
 }
