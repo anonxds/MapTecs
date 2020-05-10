@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "99396857968",
+    "firebase_url": "https://mapstec-81290.firebaseio.com",
+    "project_id": "mapstec-81290",
+    "storage_bucket": "mapstec-81290.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99396857968:android:7d130e98606ac5dd6004b5",
+        "android_client_info": {
+          "package_name": "com.example.reborn30.maptecs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "99396857968-p0u0tne7ouggfb634pd95iukppkmcpie.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.reborn30.maptecs",
+            "certificate_hash": "3b43059a50489cbd14f2afc56ce55b100f978fbc"
+          }
+        },
+        {
+          "client_id": "99396857968-mu3trakrr9cdthuhjpa13dum59jnvqub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi5dCoIl647qzdb3r6bjLGt_9WOk-xg9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "99396857968-mu3trakrr9cdthuhjpa13dum59jnvqub.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

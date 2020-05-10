@@ -13,6 +13,4 @@ public class ModelInfo extends AppCompatActivity {
 
     String Nombre;
 
-
-
 }

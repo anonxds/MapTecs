@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -32,6 +35,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -43,6 +47,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 
 import java.util.ArrayList;
 
@@ -57,6 +62,10 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
     private Location lastLocation;
     private Marker currentUserLocationMarker;
     private static final  int Request_User_location_code=99;
+    private boolean mIsInAnimation = false;
+    private ScaleGestureDetector mScaleGestureDetector = null;
+    private Button _btncentrar;
+
 
     static  final  LatLng EstaMes = new LatLng(   32.528844, -116.988736);
     static final LatLng estaAlum = new LatLng(32.531239, -116.987254);
@@ -91,6 +100,12 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
 
      static  final LatLng _biosalones = new LatLng(32.530736, -116.986319);
 
+
+     //misc
+    static final LatLng _direccion = new LatLng(32.529206, -116.987298);
+    static final LatLng _laboratirio_de_hidraulica = new LatLng(32.529997, -116.986880);
+    static final LatLng _laboratorio_quimica = new LatLng(32.530639, -116.985973);
+    static final LatLng _gimnacio = new LatLng(32.530843, -116.986885);
     private Marker
             estaAlumno,
             estaAlumn01,
@@ -116,9 +131,13 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
             labredes,
             labelectromecanica,
             labbioquimica,
+            direccion,
+            laboratorioH,
+            laboratorioQuimica,
+            gimnacio,
             lastOpenned = null;
     TextView _idfiltrar;
-    Button btnfiltrar,_btnbuscar;
+    Button btnfiltrar,_btnbuscar,_frequentquestion;
     ListView _filtrar;
     String data = "";
     Bundle bundle = new Bundle();
@@ -146,6 +165,8 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         _idfiltrar = findViewById(R.id.idfiltro);
         btnfiltrar = findViewById(R.id.btnfiltros);
         _btnbuscar = findViewById(R.id.btnbuscar);
+        _btncentrar = findViewById(R.id.btncentrar);
+        _frequentquestion = findViewById(R.id.btnbooklet);
          if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             checkUserLocationPermission();
         }
@@ -168,26 +189,40 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
              }
          });
 
+         _btncentrar.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 ubicarmapa(32.529213, -116.987736,17.9f,0,10);
+
+             }
+         });
+         _frequentquestion.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Intent i = new Intent(getBaseContext(),LugaresGrandes.class);
+                 startActivity(i);
+             }
+         });
+
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         final String modulo = getIntent().getStringExtra("Nombre");
         mMap = googleMap;
-        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.style_json));
-
         switch (modulo){
             case "Tomas":
-                ubicarmapa(32.529213, -116.987736,16.9f,25,10,32.526946, -116.986892,32.531263, -116.985820);
-                LatLngBounds AUSTRALIA = new LatLngBounds(new LatLng(32.528598, -116.988322), new LatLng( 32.531176, -116.984685));
-                mMap.setLatLngBoundsForCameraTarget(AUSTRALIA);
+                ubicarmapa(32.529213, -116.987736,17.9f,0,10);
+                LatLngBounds Tomas = new LatLngBounds(new LatLng(32.528598, -116.988322), new LatLng( 32.531176, -116.984685));
+                mMap.setLatLngBoundsForCameraTarget(Tomas);
                 ubicacionesTomas(mMap);
-                //  mMap.getUiSettings().setScrollGesturesEnabled(false);
+                mMap.getUiSettings().setZoomGesturesEnabled(false);
+                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.style_json));
+
                 break;
             case "Otay":
-
-                ubicarmapa( 32.535236, -116.926399,16.9f,25,10,32.526946, -116.986892,32.531263, -116.985820);
-                LatLngBounds JAPON = new LatLngBounds(new LatLng(32.531835, -116.929663), new LatLng( 32.538346, -116.922500));
-                mMap.setLatLngBoundsForCameraTarget(JAPON);
+                ubicarmapa( 32.535236, -116.926399,16.9f,25,10);
+                LatLngBounds Otay = new LatLngBounds(new LatLng(32.531835, -116.929663), new LatLng( 32.538346, -116.922500));
+                mMap.setLatLngBoundsForCameraTarget(Otay);
 
                 break;
         }
@@ -267,7 +302,10 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         if (marker.equals(salones_q)){
          bundle.putString("id", "Q");
         }
-
+        if(marker.equals(salones_bio)){
+            bundle.putString("id","s_bio");
+        }
+        //coordinaciones
         if(marker.equals(sistemasC)){
             bundle.putString("id","sc");
         }
@@ -280,24 +318,26 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         if (marker.equals(industrialC)){
             bundle.putString("id", "ic");
         }
+        //termina coordinaciones
+
         if (marker.equals(labelectromecanica)){
             bundle.putString("id","metal");
         }
         if (marker.equals(labredes)){
-               bundle.putString("id", "redes");
+               bundle.putString("id", "misc_r");
         }
         if(marker.equals(labmatematica)){
-              bundle.putString("id", "mate");
+              bundle.putString("id", "misc_m");
         }
         if(marker.equals(labbioquimica)){
             bundle.putString("id","bio");
         }
         if (marker.equals(papeleria)){
-           bundle.putString("id", "papel");
+           bundle.putString("id", "misc_p");
 
         }
         if (marker.equals(audiovisual)){
-             bundle.putString("id", "audio");
+             bundle.putString("id", "misc_au");
         }
 
         if(marker.equals(cafeteria)){
@@ -308,8 +348,37 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         }
         if(marker.equals(biblioteca)){
             bundle.putString("id","bioblioteca");
+        }
+        if(marker.equals(direccion)){
+            bundle.putString("id","direccion");
+        }
+
+        //estacionamiento
+        if(marker.equals(estacionamiento)){
+            bundle.putString("id","est_1");
 
         }
+        if (marker.equals(estaAlumno)){
+            bundle.putString("id","est_2");
+
+        }
+        if (marker.equals(estaAlumn01)){
+            bundle.putString("id","est_3");
+        }
+        //final estacionamiento
+
+        if(marker.equals(gimnacio)){
+            bundle.putString("id","gym");
+        }
+        if(marker.equals(laboratorioH)){
+            bundle.putString("id","lab_h");
+
+        }
+        if(marker.equals(laboratorioQuimica)){
+            bundle.putString("id","lab_q");
+
+        }
+
 
         InfopanelActivity bts = new InfopanelActivity();
         bts.setArguments(bundle);
@@ -386,16 +455,19 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
          }
     }
 
-    void ubicarmapa(double x1,double x2,float zoom,int orientacion,int inclinacion,double restriccion1,double restriccion2,double restriccion3,double restriccion4){
+    void ubicarmapa(double x1,double x2,float zoom,int orientacion,int inclinacion){
         CameraPosition ubicacion = new CameraPosition.Builder().target(new LatLng(x1, x2))
                 .zoom(zoom)
                 .bearing(orientacion).tilt(inclinacion).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(ubicacion));
     }
+
+
+
     void ubicacionesTomas(GoogleMap googleMap){
       //  googleMap.setOnMarkerClickListener(this);
         salones_100= googleMap.addMarker(new MarkerOptions().position(_edi100).title("Edificio 100").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
-        salones_200= googleMap.addMarker(new MarkerOptions().position(_edi200).title("Edificio 200").snippet("Salones/Aulamagna").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        salones_200= googleMap.addMarker(new MarkerOptions().position(_edi200).title("Edificio 200").snippet("Salones/Aulamagna").icon(BitmapDescriptorFactory.fromResource(R.drawable.custom_icon_3_1)));
         salones_300= googleMap.addMarker(new MarkerOptions().position(_edi300).title("Edificio 500").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
         salones_400= googleMap.addMarker(new MarkerOptions().position(_edi400).title("Edificio 400").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
         salones_500= googleMap.addMarker(new MarkerOptions().position(_edi500).title("Edificio 500").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
@@ -403,11 +475,11 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         salones_q= googleMap.addMarker(new MarkerOptions().position(_edifQ).title("Edificio Q").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
         salones_bio= googleMap.addMarker(new MarkerOptions().position(_biosalones).title("Bioquimica").snippet("Salones").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
 
-        labredes= googleMap.addMarker(new MarkerOptions().position(_labredes).title("Laboratorio redes").snippet("Laboratiorio.Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
         cafeteria= googleMap.addMarker(new MarkerOptions().position(CAFE).title("Cafeteria").snippet("Cafeteria/Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.cafeteria)));
-        labmatematica= googleMap.addMarker(new MarkerOptions().position(_labmatematicas).title("Oficinas").snippet("Ofinica/Laboratorio").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
-        papeleria= googleMap.addMarker(new MarkerOptions().position(_editorial).title("Papeleria").snippet("Editorial/Enfermeria/Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
-        audiovisual= googleMap.addMarker(new MarkerOptions().position(_audiovisual).title("Audiovisual").snippet("Audiovisual/Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.enterprise)));
+        labredes= googleMap.addMarker(new MarkerOptions().position(_labredes).title("Laboratorio redes").snippet("Laboratiorio.Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.custom_icon_1_1)));
+        labmatematica= googleMap.addMarker(new MarkerOptions().position(_labmatematicas).title("Oficinas").snippet("Ofinica/Laboratorio").icon(BitmapDescriptorFactory.fromResource(R.drawable.question)));
+        papeleria= googleMap.addMarker(new MarkerOptions().position(_editorial).title("Papeleria").snippet("Editorial/Enfermeria/Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.custom_icon_2_1)));
+        audiovisual= googleMap.addMarker(new MarkerOptions().position(_audiovisual).title("Audiovisual").snippet("Audiovisual/Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.magna)));
 
         calafornix= googleMap.addMarker(new MarkerOptions().position(_calafornix).title("Calafornix").snippet("Teatro").icon(BitmapDescriptorFactory.fromResource(R.drawable.masks)));
         biblioteca= googleMap.addMarker(new MarkerOptions().position(_biblioteca).title("Biblioteca").snippet(" ").icon(BitmapDescriptorFactory.fromResource(R.drawable.book)));
@@ -425,7 +497,18 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         estaAlumno = googleMap.addMarker(new MarkerOptions().position(estaAlum).title("Estacionamiento de Alumno").icon(BitmapDescriptorFactory.fromResource(R.drawable.park)));
         estaAlumn01 = googleMap.addMarker(new MarkerOptions().position(estaAlum2).title("Estacionamiento de Alumno").icon(BitmapDescriptorFactory.fromResource(R.drawable.park)));
 
+
+        //misc
+        direccion = googleMap.addMarker(new MarkerOptions().position(_direccion).title("Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.question)));
+        laboratorioH = googleMap.addMarker(new MarkerOptions().position(_laboratirio_de_hidraulica).title("laboratiorio/comite").icon(BitmapDescriptorFactory.fromResource(R.drawable.question)));
+        laboratorioQuimica = googleMap.addMarker(new MarkerOptions().position(_laboratorio_quimica).title("laboratiorio/quimica/agricultura").icon(BitmapDescriptorFactory.fromResource(R.drawable.question)));
+        gimnacio = googleMap.addMarker(new MarkerOptions().position(_gimnacio).title("gimancio").icon(BitmapDescriptorFactory.fromResource(R.drawable.question)));
+
     }
+
+
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -524,4 +607,74 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         _idfiltrar.setText(item);
         Log.d("mensage",data);
     }
+
+
+    private ScaleGestureDetector.SimpleOnScaleGestureListener mScaleGestudeListener =
+            new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+
+                @Override
+                public boolean onScale (ScaleGestureDetector detector) {
+                    if (mIsInAnimation) return false;
+
+                    GoogleMap map = mMap;
+                    double zoom = map.getCameraPosition().zoom;
+
+                    double k = 1d / detector.getScaleFactor();
+                    int x = (int) detector.getFocusX();
+                    int y = (int) detector.getFocusY();
+                    LatLng mapFocus = map.getProjection().
+                            fromScreenLocation(new Point(x, y));
+                    LatLng target = map.getCameraPosition().target;
+
+                    zoom = zoom + Math.log(detector.getScaleFactor()) / Math.log(2d);
+                    if (zoom < 18f)
+                        if (zoom == 20f) return false;
+                        else zoom = 15f;
+                    if (zoom > 30f)
+                        if (zoom == 10f) return false;
+                        else zoom = 20f;
+
+                    double dx = norm(mapFocus.longitude) - norm(target.longitude);
+                    double dy = mapFocus.latitude - target.latitude;
+                    double dk = 1d - 1d / k;
+                    LatLng newTarget = new LatLng(target.latitude - dy * dk,
+                            norm(target.longitude) - dx * dk);
+
+                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(newTarget, (float) zoom);
+                    tryUpdateCamera(update, 0);
+                    return true;
+                }
+            };
+
+    private double norm(double lonVal) {
+        while (lonVal > 360d) lonVal -= 360d;
+        while (lonVal < -360d) lonVal += 360d;
+        if (lonVal < 0) lonVal = 360d + lonVal;
+        return lonVal;
+    }
+
+    private void tryUpdateCamera(CameraUpdate update, int animateTime) {
+        GoogleMap map = mMap;
+        final VisibleRegion reg = map.getProjection().getVisibleRegion();
+        if (animateTime <= 0) {
+            map.moveCamera(update);
+        } else {
+            mIsInAnimation = true;
+            map.animateCamera(update, animateTime, new GoogleMap.CancelableCallback() {
+                @Override
+                public void onFinish() {
+                    mIsInAnimation = false;
+                }
+                @Override
+                public void onCancel() {
+                    mIsInAnimation = false;
+                }
+            });
+        }
+    }
+
 }
+
+
+
+

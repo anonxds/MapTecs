@@ -26,13 +26,107 @@ public class ImageAdapter extends PagerAdapter {
             case "Otay":
                 mImageIds = new int[]{R.drawable.otay1,R.drawable.otay2,R.drawable.otay4,R.drawable.otay};
                 break;
-            case "Q":
-                mImageIds = new int[]{R.drawable.iedificioq,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos};
-                break;
+
             case "bioblioteca":
                 mImageIds = new int[]{R.drawable.bibl_1,R.drawable.bio_2,R.drawable.biob_2,R.drawable.rosa_de_los_vientos};
+                break;
+                //salones
+            case  "100":
+                mImageIds = new int[]{R.drawable.s_100_1,R.drawable.s_100_2,R.drawable.s_100_3,R.drawable.rosa_de_los_vientos};
 
                 break;
+            case "200":
+                mImageIds = new int[]{R.drawable.s_200_1,R.drawable.s_200_2,R.drawable.s_200_3,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "300":
+                mImageIds = new int[]{R.drawable.s_300_1,R.drawable.s_300_2,R.drawable.s_300_3,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "400":
+                mImageIds = new int[]{R.drawable.s_400_1,R.drawable.s_400_2,R.drawable.s_400_3,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "500":
+                mImageIds = new int[]{R.drawable.s_500_1,R.drawable.s_500_2,R.drawable.s_500_3,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "600":
+                mImageIds = new int[]{R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "Q":
+                mImageIds = new int[]{R.drawable.iedificioq,R.drawable.q_1,R.drawable.q_2,R.drawable.q_4};
+                break;
+            case "cafeteria":
+                mImageIds = new int[]{R.drawable.icafeteria,R.drawable.c_2,R.drawable.c_3,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "sc":
+                mImageIds = new int[]{R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "ic":
+                mImageIds = new int[]{R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "bc":
+                mImageIds = new int[]{R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "mc":
+                mImageIds = new int[]{R.drawable.cord_mt_1,R.drawable.cord_mt_2,R.drawable.cord_mt_3,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "bio":
+                mImageIds = new int[]{R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "teatro":
+                mImageIds = new int[]{R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "metal":
+                mImageIds = new int[]{R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos};
+
+                break;
+            case "audio":
+                mImageIds = new int[]{R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos,R.drawable.rosa_de_los_vientos};
+                break;
+            case "misc_r":
+                mImageIds = new int[]{R.drawable.misc_r_1,R.drawable.misc_r_2,R.drawable.misc_r_3,R.drawable.rosa_de_los_vientos};
+                break;
+            case "misc_m":
+                mImageIds = new int[]{R.drawable.misc_m_1,R.drawable.misc_m_2,R.drawable.misc_m_3,R.drawable.rosa_de_los_vientos};
+                break;
+            case "misc_p":
+                mImageIds = new int[]{R.drawable.misc_p_1,R.drawable.misc_p_2,R.drawable.misc_p_3,R.drawable.rosa_de_los_vientos};
+                break;
+            case "misc_au":
+                mImageIds = new int[]{R.drawable.misc_au_1,R.drawable.misc_au_2,R.drawable.misc_au_3,R.drawable.rosa_de_los_vientos};
+                break;
+            case "direccion":
+
+                break;
+            case "est_1":
+
+                break;
+            case "est_2":
+
+                break;
+            case "est_3":
+
+                break;
+            case "gym":
+
+                break;
+            case "lab_h":
+
+                break;
+            case "lab_q":
+                break;
+
+
         }
       return mImageIds;
     }
