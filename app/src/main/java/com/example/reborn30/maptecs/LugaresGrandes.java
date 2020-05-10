@@ -1,12 +1,17 @@
 package com.example.reborn30.maptecs;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.example.reborn30.maptecs.Menu.InformacionEscuela;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +28,7 @@ public class LugaresGrandes extends AppCompatActivity {
                 "Donde se encuentra la oficina de servicio social?"));
 
 
-        ArrayAdapter<String> arrayAdapter =
+        final ArrayAdapter<String> arrayAdapter =
                 new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, questions_list);
 
         _listquestion.setAdapter(arrayAdapter);
@@ -32,8 +37,12 @@ public class LugaresGrandes extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                int selectedAnimal = (int) _listquestion.getItemAtPosition(i);
-
+                long id = arrayAdapter.getItemId(i);
+                String titutlo = arrayAdapter.getItem(i);
+                Intent q = new Intent(getBaseContext(), question_Activity.class);
+                q.putExtra("id",id);
+                q.putExtra("titulo",titutlo);
+                startActivity(q);
             }
         });
 

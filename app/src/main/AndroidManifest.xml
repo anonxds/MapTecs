@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LegendActivity"></activity>
+        <activity android:name=".question_Activity"></activity>
+        <activity android:name=".LegendActivity" />
         <activity android:name=".LugaresGrandes" />
         <activity android:name=".Menu.MainActivity" />
         <activity android:name=".Menu.InformacionEscuela" />
