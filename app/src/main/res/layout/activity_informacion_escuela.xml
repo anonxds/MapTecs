@@ -67,7 +67,14 @@
                     android:id="@+id/lblevent1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Evento 1" />
+                    android:text="Evento 1"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/txtdescrip1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
             </LinearLayout>
 
             <LinearLayout
@@ -85,9 +92,10 @@
                     android:id="@+id/lblevent2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Evento 2" />
+                    android:text="Evento 2"
+                    android:textAlignment="center" />
                 <TextView
-                    android:id="@+id/lbldes"
+                    android:id="@+id/txtdesc2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Una descripcion detallada"

@@ -97,22 +97,31 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/imgevento2"
+                    android:id="@+id/imgevento1"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="40dp"
+                    android:paddingBottom="40dp"
                     app:srcCompat="@drawable/question" />
 
                 <TextView
-                    android:id="@+id/lblevent2"
+                    android:id="@+id/lblevent1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Evento 2" />
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Evento 2"
+                    android:textAlignment="center" />
 
                 <TextView
-                    android:id="@+id/lbldes"
+                    android:id="@+id/txtdesc2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
                     android:text="Una descripcion detallada"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 

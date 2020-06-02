@@ -502,7 +502,7 @@ public class TECMapActivity extends FragmentActivity implements OnMapReadyCallba
         direccion = googleMap.addMarker(new MarkerOptions().position(_direccion).title("Oficinas").icon(BitmapDescriptorFactory.fromResource(R.drawable.question)));
         laboratorioH = googleMap.addMarker(new MarkerOptions().position(_laboratirio_de_hidraulica).title("laboratiorio/comite").icon(BitmapDescriptorFactory.fromResource(R.drawable.question)));
         laboratorioQuimica = googleMap.addMarker(new MarkerOptions().position(_laboratorio_quimica).title("laboratiorio/quimica/agricultura").icon(BitmapDescriptorFactory.fromResource(R.drawable.question)));
-        gimnacio = googleMap.addMarker(new MarkerOptions().position(_gimnacio).title("gimancio").icon(BitmapDescriptorFactory.fromResource(R.drawable.gyn)));
+        gimnacio = googleMap.addMarker(new MarkerOptions().position(_gimnacio).title("gimancio").icon(BitmapDescriptorFactory.fromResource(R.drawable.question)));
 
     }
 

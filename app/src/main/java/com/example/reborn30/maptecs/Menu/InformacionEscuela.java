@@ -22,25 +22,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class InformacionEscuela extends AppCompatActivity {
     Context c = this;
-    TextView unidad,evento1,evento2;
+    TextView unidad,evento1,evento2,txtdesc1;
     TextView descripcion;
     Button btnmapa;
     FirebaseDatabase _FirebaseDatabase;
-    DatabaseReference _DatabaseReference,_ImgDatabse;
-    String Valor,Valor2;
-    ImageView img;
+    DatabaseReference _DatabaseReference;
+    String Valor,Valor2,titulo,desc,_img;
+    ImageView img,img2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion_escuela);
 
         final String nombre = getIntent().getStringExtra("Nombre");
-        String des = getIntent().getStringExtra("descripcion");
+        final String des = getIntent().getStringExtra("descripcion");
         String unidadS;
         if(nombre.equals("Tomas")) {
             unidadS = "Unidad " + nombre + " aquino";
@@ -48,21 +45,27 @@ public class InformacionEscuela extends AppCompatActivity {
             unidadS = "Unidad " + nombre;
         }
         unidad = findViewById(R.id.lblunidad);
-        descripcion = findViewById(R.id.lbldes);
+        descripcion = findViewById(R.id.txtdesc2);
         btnmapa = findViewById(R.id.mapa);
         evento1 = findViewById(R.id.lblevent1);
         evento2 = findViewById(R.id.lblevent2);
+        txtdesc1 = findViewById(R.id.txtdescrip1);
+
         img = findViewById(R.id.imgevento1);
+        img2 = findViewById(R.id.imgevento2);
 
         //checar si hay conexion a firebase
-        _DatabaseReference = FirebaseDatabase.getInstance().getReference("aquino");
-        _ImgDatabse = FirebaseDatabase.getInstance().getReference("event");
-        _DatabaseReference.child("/evento1").addValueEventListener(new ValueEventListener() {
+        _DatabaseReference = FirebaseDatabase.getInstance().getReference("tomas_aquino");
+        _DatabaseReference.child("/menu_principal_1").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Valor = String.valueOf( dataSnapshot.getValue());
-                evento1.setText(Valor);
-                Log.d("key",Valor);
+
+                desc = String.valueOf(dataSnapshot.child("descripcion").getValue());
+                titulo = String.valueOf(dataSnapshot.child("titulo").getValue());
+                _img = String.valueOf(dataSnapshot.child("img").getValue());
+                txtdesc1.setText(desc);
+                evento1.setText(titulo);
+                Picasso.get().load(_img).into(img);
 
             }
 
@@ -71,12 +74,16 @@ public class InformacionEscuela extends AppCompatActivity {
 
             }
         });
-        _DatabaseReference.child("/evento2").addValueEventListener(new ValueEventListener() {
+        _DatabaseReference.child("/menu_principal_2").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Valor2 = String.valueOf( dataSnapshot.getValue());
-                Log.d("key2",Valor2);
-                evento2.setText(Valor2);
+                desc = String.valueOf(dataSnapshot.child("descripcion").getValue());
+                titulo = String.valueOf(dataSnapshot.child("titulo").getValue());
+                _img = String.valueOf(dataSnapshot.child("img").getValue());
+                evento2.setText(titulo);
+                descripcion.setText(desc);
+                Picasso.get().load(_img).into(img2);
+
             }
 
             @Override
@@ -84,22 +91,6 @@ public class InformacionEscuela extends AppCompatActivity {
 
             }
         });
-
-        _ImgDatabse.child("/-M26cgHl7OV8nnKq57w0/img").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Valor2 = String.valueOf( dataSnapshot.getValue());
-
-                Picasso.get().load(Valor2).into(img);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        //
-
         ViewPager vp = findViewById(R.id.imageView2);
         ImageAdapter adp = new ImageAdapter(c, nombre);
         vp.setAdapter(adp);

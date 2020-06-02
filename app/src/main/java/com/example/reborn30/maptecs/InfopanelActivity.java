@@ -11,9 +11,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
 public class InfopanelActivity extends BottomSheetDialogFragment {
-    ImageView foto;
-    TextView titulo;
+    ImageView foto,Fimg;
+    TextView titulo,_Ftitulo,Fdescripcion;
+    DatabaseReference _DatabaseReference;
+    String _titulo,desc,_img;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -22,6 +32,11 @@ public class InfopanelActivity extends BottomSheetDialogFragment {
         ViewPager vp = v.findViewById(R.id.imageView2);
         String ubicacion = getArguments().getString("id");
         titulo = v.findViewById(R.id.idinformation1);
+        _Ftitulo = v.findViewById(R.id.lblevent1);
+        Fdescripcion = v.findViewById(R.id.txtdesc2);
+        Fimg = v.findViewById(R.id.imgevento1);
+        _DatabaseReference = FirebaseDatabase.getInstance().getReference("tomas_aquino");
+
 
         switch (ubicacion){
             case  "100":
@@ -98,6 +113,23 @@ public class InfopanelActivity extends BottomSheetDialogFragment {
                 titulo.setText("Teatro calafornix");
                 ImageAdapter _teatro = new ImageAdapter(getContext(),"teatro");
                 vp.setAdapter(_teatro);
+                _DatabaseReference.child("calafornix_1").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        desc = String.valueOf(dataSnapshot.child("descripcion").getValue());
+                        _titulo = String.valueOf(dataSnapshot.child("titulo").getValue());
+                        _img = String.valueOf(dataSnapshot.child("img").getValue());
+                        Fdescripcion.setText(desc);
+                        _Ftitulo.setText(_titulo);
+                        Picasso.get().load(_img).into(Fimg);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
                 break;
             case "metal":
                 titulo.setText("Laboratorio de metalmecanica y mecanica");
